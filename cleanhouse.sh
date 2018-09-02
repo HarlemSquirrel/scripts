@@ -1,17 +1,25 @@
 #!/bin/bash
 
-echo "We are now going to clean some shit up..."
-# sleep 2
+printf "  --Before--\n"
+df -h --total
+
+printf "\nWe are now going to clean some shit up...\n"
 
 # echo "Cleaning up old files in /var..."
 # sudo find /var/* -atime +30 | wc -l
 # sudo find /var/* -atime +30 -delete
 
-echo "Cleaning up pacman cache..."
-sudo paccache -r
-sudo paccache -ruk0
+if command -v apt >/dev/null 2>&1; then
+  printf "Running apt autoremove and autoclean...\n"
+  sudo apt -y autoremove
+  sudo apt -y autoclean
+elif command -v pacman >/dev/null 2>&1; then
+  printf "Cleaning up Pacman cache...\n"
+  sudo paccache -r
+  sudo paccache -ruk0
+fi
 
-# echo "Cleaning up config, cache, and share files in the home directory..."
+# printf "Cleaning up config, cache, and share files in the home directory...\n"
 # find ~/.config/* -atime +90 | wc -l
 # find ~/.config/* -atime +90 -delete
 # find ~/.cache/* -atime +90 | wc -l
@@ -19,12 +27,14 @@ sudo paccache -ruk0
 # find ~/.local/share/* -atime +90 | wc -l
 # find ~/.local/share/* -atime +90 -delete
 
-echo "Removing broken symlinks..."
+printf "Removing broken symlinks...\n"
 find ~/. -type l -! -exec test -e {} \; -print | wc -l
 find ~/. -type l -! -exec test -e {} \; -delete
 
-echo "Removing all but the last 30 days of journal logs..."
+printf "Removing all but the last 30 days of journal logs...\n"
 sudo journalctl --vacuum-time=30d
 
-echo "All done here!"
-# sleep 2
+printf "--After--\n"
+df -h --total
+
+printf "\nAll done here!\n"
