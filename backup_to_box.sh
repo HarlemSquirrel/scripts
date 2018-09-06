@@ -20,6 +20,11 @@ curl --remote-name --silent --time-cond $cert -o $cert $MOZILLA_CA_CERT_STORE
 # python -m keyring set Login boxwebdav
 export FTP_PASSWORD="$(python -m keyring get Login boxwebdav)"
 
+# Prompt for GPG key passphrase
+printf "Enter decryption passphrase: "
+read -s password
+export PASSPHRASE=$password
+
 enc_key=B4397A5E # Public GPG key
 dest="webdavs://hostname@dav.box.com/dav/backup_folder"
 src="$HOME"
@@ -28,6 +33,7 @@ date
 printf "Starting backup...\n"
 
 duplicity --encrypt-key $enc_key \
+          --gpg-options "--pinentry-mode=loopback" \
           --full-if-older-than 60D \
           --num-retries 3 \
           --asynchronous-upload \
