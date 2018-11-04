@@ -40,7 +40,7 @@ sudo journalctl --vacuum-time=30d
 printf "Taking out the trash...\n"
 trash-empty
 
-printf "--After--\n"
+printf "  --After--\n"
 df -h --total
 
 printf "\nAll done here!\n"
