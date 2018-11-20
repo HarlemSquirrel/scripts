@@ -1,5 +1,13 @@
+#!/usr/bin/env bash
+
+# Make sure only root can run our script
+if [[ $EUID -ne 0 ]]; then
+   echo "  $0 must be run as root!" 1>&2
+   exit 1
+fi
+
 ## Set the old version that we want to upgrade from.
-export FROM_VERSION=9.5
+export FROM_VERSION=10
 
 pacman -S --needed postgresql-old-upgrade
 chown postgres:postgres /var/lib/postgres/
