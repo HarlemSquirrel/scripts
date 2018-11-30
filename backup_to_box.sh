@@ -5,14 +5,20 @@
 ## https://wiki.archlinux.org/index.php/Duplicity#Example_backup_script
 ## https://help.ubuntu.com/community/DuplicityBackupHowto
 
+CERT_NAME="cacert.pem"
+MOZILLA_CA_CERT_STORE="https://curl.haxx.se/ca/cacert.pem"
+WORK_DIR="$HOME/.duplicity"
+
+if [ ! -d $WORK_DIR ]; then
+  printf "Creating missing directory at $WORK_DIR\n"
+  mkdir $WORK_DIR
+fi
+
+cd $WORK_DIR
+
 # Make sure we can verify the SSL cert on the remote server
 # using the Mozilla CA certificate store
-if [ ! -f "$HOME/.duplicity" ]; then
-  mkdir "$HOME/.duplicity" 2> /dev/null
-fi
-MOZILLA_CA_CERT_STORE="https://curl.haxx.se/ca/cacert.pem"
-cert="$HOME/.duplicity/cacert.pem"
-curl --remote-name --silent --time-cond $cert -o $cert $MOZILLA_CA_CERT_STORE
+curl --remote-name --silent --time-cond $CERT_NAME -o $CERT_NAME $MOZILLA_CA_CERT_STORE
 
 # We use Python Keyring Lib to store the password for WebDAV
 # https://pypi.python.org/pypi/keyring
@@ -48,7 +54,7 @@ duplicity --encrypt-key $enc_key \
           --exclude="${HOME}/Downloads" \
           --exclude="${HOME}/Music" \
           --exclude="${HOME}/VirtualBox VMs" \
-          --ssl-cacert-file "$cert" \
+          --ssl-cacert-file "$CERT_DIR/$CERT_NAME" \
           "$src" "$dest"
 
 unset PASSPHRASE
