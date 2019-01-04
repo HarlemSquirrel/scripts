@@ -25,7 +25,8 @@ sudo dnf config-manager \
     https://download.docker.com/linux/fedora/docker-ce.repo
 
 # Install packages
-sudo dnf install ansible chromium curl docker-ce git gnome-tweaks openldap-clients \
+sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce git gnome-tweaks \
+								 kernel-devel openldap-clients \
                  util-linux-user vim xdotool zsh zsh-syntax-highlighting
 
 # Install Docker Compose
@@ -53,6 +54,13 @@ sudo dnf install ~/Downloads/atom.x86_64.rpm
 # https://rvm.io/
 gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 \curl -sSL https://get.rvm.io | bash -s master
+
+# VirtualBox
+printf "\nDownloading and installing VirtualBox...\n"
+vb_link=$(curl -s https://www.virtualbox.org/wiki/Linux_Downloads | grep -o "https://download.*fedora29.*\.rpm")
+wget --directory-prefix="$HOME/Downloads" --timestamping "$vb_link"
+vb_file=$(ls -1t ~/Downloads/*VirtualBox*.rpm | head -n 1)
+sudo dnf install $vb_file
 
 # Yarn
 # https://yarnpkg.com/en/docs/install#centos-stable
