@@ -29,6 +29,12 @@ sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce git gnome
 								 kernel-devel openldap-clients \
                  util-linux-user vim xdotool zsh zsh-syntax-highlighting
 
+# RPM Fusion
+# https://rpmfusion.org/Configuration
+sudo dnf install \
+	https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+	https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
 # Install Docker Compose
 # https://docs.docker.com/compose/install/#install-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
