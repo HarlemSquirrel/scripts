@@ -35,6 +35,10 @@ sudo dnf install \
 	https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
 	https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
+# Enable codecs
+# https://srvfail.com/how-to-enable-h264-codec-on-fedora-28/
+sudo dnf install -y compat-ffmpeg28 ffmpeg-libs
+
 # Install Docker Compose
 # https://docs.docker.com/compose/install/#install-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
