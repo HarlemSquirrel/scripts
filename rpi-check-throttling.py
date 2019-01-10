@@ -33,7 +33,7 @@ class Logger:
 
     @classmethod
     def success(cls, msg):
-        print(cls.OLOR_SUCCESS + msg + cls.COLOR_RESET)
+        print(cls.COLOR_SUCCESS + msg + cls.COLOR_RESET)
 
     @classmethod
     def warn(cls, msg):
