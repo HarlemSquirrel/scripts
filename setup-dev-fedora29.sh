@@ -26,7 +26,7 @@ sudo dnf config-manager \
 
 # Install packages
 sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce git gnome-tweaks \
-								 kernel-devel openldap-clients \
+								 httpd kernel-devel openldap-clients \
                  util-linux-user vim xdotool zsh zsh-syntax-highlighting
 
 # RPM Fusion
