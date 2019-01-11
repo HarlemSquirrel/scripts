@@ -25,7 +25,7 @@ sudo dnf config-manager \
     https://download.docker.com/linux/fedora/docker-ce.repo
 
 # Install packages
-sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce git gnome-tweaks \
+sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce fuse-sshfs git gnome-tweaks \
 								 httpd kernel-devel openldap-clients \
                  util-linux-user vim xdotool zsh zsh-syntax-highlighting
 
