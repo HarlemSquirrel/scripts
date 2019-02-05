@@ -27,7 +27,8 @@ sudo dnf config-manager \
 # Install packages
 sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce flameshot fuse-sshfs \
 								 git gnome-tweaks httpd kernel-devel openldap-clients \
-                 util-linux-user vim xdotool zsh zsh-syntax-highlighting
+                 util-linux-user vim xdotool zsh zsh-syntax-highlighting \
+								 openssl-devel ruby
 
 # RPM Fusion
 # https://rpmfusion.org/Configuration
