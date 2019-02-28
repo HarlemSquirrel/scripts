@@ -6,7 +6,8 @@ dev_tools=(atom ctags docker docker-compose git gnome-nettool nmap postgresql ph
 gaming=(steam steam-native-runtime)
 general=(chromium deja-dup dropbox firefox)
 hp_printing=(hplip python-reportlab python-pyqt4 python-pyqt5 sane xsane)
-media=(audacious minidlna sound-juicer vlc libaacs libva-mesa-driver mesa-vdpau lib32-mesa-vdpau)
+media=(audacious minidlna sound-juicer libaacs libva-mesa-driver mesa-vdpau lib32-mesa-vdpau)
+vlc=(vlc libmicrodns protobuf)
 office=(libreoffice-fresh gimp simple-scan thunderbird)
 system=(lm_sensors mesa-demos gufw smartmontools xdotool)
 themes=(arc-gtk-theme)
@@ -24,7 +25,7 @@ printf 'HP Printing...\n'
 sudo pacman -S ${hp_printing[*]}
 
 printf 'Media...\n'
-sudo pacman -S ${media[*]} ${inkscape_recommends[*]}
+sudo pacman -S ${media[*]} ${inkscape_recommends[*]} ${vlc[*]}
 
 printf 'Office...\n'
 sudo pacman -S ${office[*]}
