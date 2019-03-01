@@ -32,10 +32,15 @@ numpages=$(mutool info $docname | grep "Pages: " | cut -d ":" -f2 | xargs)
 
 printf "Number of pages is $numpages\n"
 
-reordering=("60,1")
+reordering=()
 endnum=$(($numpages/2))
-for pagenum in $(seq 2 $endnum); do
-	reordering+=("$pagenum,$(($numpages + 1 - $pagenum))")
+for pagenum in $(seq 1 $endnum); do
+	if [ $((pagenum%2)) -eq 0 ];
+	then
+		reordering+=("$pagenum,$(($numpages + 1 - $pagenum))")
+	else
+		reordering+=("$(($numpages + 1 - $pagenum)),$pagenum")
+	fi
 done
 
 printf "New page order:\n$(join_by , ${reordering[@]})\n"
