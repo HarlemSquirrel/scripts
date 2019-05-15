@@ -43,17 +43,18 @@ duplicity --encrypt-key $enc_key \
           --full-if-older-than 60D \
           --num-retries 3 \
           --asynchronous-upload \
-          --archive-dir="${HOME}/.cache/duplicity" \
-          --log-file "${HOME}/.cache/duplicity/duplicity.log" \
-          --exclude="${src}/.cache" \
-          --exclude="${src}/.local/share/Trash" \
-          --exclude="${HOME}/.thumbnails" \
-          --exclude="${HOME}/.Private" \
-          --exclude="${HOME}/.PlayOnLinux" \
-          --exclude="${HOME}/.wine" \
-          --exclude="${HOME}/Downloads" \
-          --exclude="${HOME}/Music" \
-          --exclude="${HOME}/VirtualBox VMs" \
+          --archive-dir="$src/.cache/duplicity" \
+          --log-file "$src/.cache/duplicity/duplicity.log" \
+          --exclude="$src/.cache" \
+          --exclude="$src/.local/share/Trash" \
+          --exclude="$src/.thumbnails" \
+          --exclude="$src/.Private" \
+          --exclude="$src/.PlayOnLinux" \
+          --exclude="$src/.pry_history" \
+          --exclude="$src/.wine" \
+          --exclude="$src/Downloads" \
+          --exclude="$src/Music" \
+          --exclude="$src/VirtualBox VMs" \
           --ssl-cacert-file "$CERT_DIR/$CERT_NAME" \
           "$src" "$dest"
 
