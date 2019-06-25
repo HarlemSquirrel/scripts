@@ -19,12 +19,12 @@ else
 fi
 
 printf "Checking status of $URL every $INTERVAL second(s)...\n"
-printf "Date                                    | Code | Duration\n"
+printf "Date                                       | Code | Duration\n"
 
 for i in `seq 1 1000`;
 do
   date=`date`
-  result=`curl -X GET -s -o /dev/null -w "%{http_code} in %{time_total}s" $URL`
+  result=`curl --insecure -X GET -s -o /dev/null -w "%{http_code} in %{time_total}s" $URL`
   if [[ $result =~ ^200.* ]]; then
     color=$GREEN
   else
