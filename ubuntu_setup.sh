@@ -12,6 +12,7 @@ pkgs=(apache2-utils ansible build-essential chromium-bowser curl docker docker-c
 media_pkgs=(libavcodec-extra)
 capybara_webkit_pkgs=(qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x)
 ldap_pkgs=(slapd ldap-utils)
+power_pkgs=(linux-tools-generic tlp tlp-rdw)
 zsh_pkgs=(zsh zsh-syntax-highlighting)
 
 # yarn
@@ -20,6 +21,9 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 
 sudo apt-get update
 sudo apt-get install ${pkgs[*]} ${capybara_webkit_pkgs[*]} ${ldap_pkgs[*]} ${media_pkgs[*]} ${zsh_pkgs[*]}
+
+# Power management and savings
+sudo apt-get install ${power_pkgs[*]}
 
 # oh-my-zsh
 # sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
