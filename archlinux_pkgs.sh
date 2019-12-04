@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 3d_printing=(blender inkscape openscad eigen)
+cli=(fzf zsh)
 inkscape_recommends=(pstoedit  python2-scour texlive-core python2-lxml uniconvertor)
 dev_tools=(atom ctags docker docker-compose git gnome-nettool nmap postgresql phantomjs qt5-webkit terminator vim yarn)
 gaming=(steam steam-native-runtime)
@@ -12,6 +13,9 @@ office=(libreoffice-fresh gimp simple-scan thunderbird)
 qt_tools=(qt5-wayland)
 system=(lm_sensors mesa-demos gufw smartmontools xdotool)
 themes=(arc-gtk-theme)
+
+printf 'CLI'
+sudo pacman -S ${cli[*]}
 
 printf 'Dev tools ...\n'
 sudo pacman -S ${dev_tools[*]}
