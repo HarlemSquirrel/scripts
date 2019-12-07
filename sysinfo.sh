@@ -9,15 +9,17 @@ printf "  $board_name\n"
 printf "  BIOS Version: $bios_version\n"
 
 cpu_info=`grep "model name" /proc/cpuinfo | head -1 | sed 's/^[^:]*: //'`
+cpu_speed_min=`lscpu | grep -o -P '(?<=CPU min MHz:).+' | grep -o -P '(\d|\.)+'`
+cpu_speed_max=`lscpu | grep -o -P '(?<=CPU max MHz:).+' | grep -o -P '(\d|\.)+'`
 printf "\n\n**CPU hardware:\n"
 printf "  $cpu_info\n"
+printf "  Configured Clock Speeds: $cpu_speed_min - $cpu_speed_max MHz\n"
+
 if [[ $EUID > 0 ]]; then
-	printf "(Run as root to see configured CPU speed)\n"
+	printf "(Run as root to see CPU boost speed)\n"
 else
-	cpu_speed=`dmidecode -s processor-frequency`
-	cpu_max_speed=`dmidecode -t processor | grep -o -P '(?<=Max Speed: ).+'`
-	printf "  Configured Clock Speed: $cpu_speed\n"
-	printf "  Configured Max Speed: $cpu_max_speed\n"
+	cpu_max_boost_speed=`dmidecode -t processor | grep -o -P '(?<=Max Speed: ).+'`
+	printf "  Configured Max Speed: $cpu_max_boost_speed\n"
 fi
 
 printf "\n\n**System Memory:\n"
