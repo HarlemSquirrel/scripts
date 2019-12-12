@@ -16,9 +16,11 @@ MESSAGES = {
     0: 'Under-voltage!',
     1: 'ARM frequency capped!',
     2: 'Currently throttled!',
+    3: 'Soft temperature limit active',
     16: 'Under-voltage has occurred since last reboot.',
     17: 'Throttling has occurred since last reboot.',
-    18: 'ARM frequency capped has occurred since last reboot.'
+    18: 'ARM frequency capped has occurred since last reboot.',
+    19: 'Soft temperature limit has occurred'
 }
 
 class Logger:
