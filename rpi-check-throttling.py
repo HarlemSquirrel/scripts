@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 # https://github.com/raspberrypi/firmware/commit/404dfef3b364b4533f70659eafdcefa3b68cd7ae#commitcomment-31620480
 # 1110000000000000010
@@ -44,10 +44,11 @@ class Logger:
 print("Checking for throttling issues since last reboot...")
 
 throttled_output = subprocess.check_output(GET_THROTTLED_CMD, shell=True)
-throttled_binary = bin(int(throttled_output.split('=')[1], 0))
+throttled_binary = bin(int(throttled_output.split(b'=')[1], 0))
 
 warnings = 0
-for position, message in MESSAGES.iteritems():
+
+for position, message in MESSAGES.items():
     # Check for the binary digits to be "on" for each warning message
     if len(throttled_binary) > position and throttled_binary[0 - position - 1] == '1':
         Logger.error(message)
