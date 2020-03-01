@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import distro # https://distro.readthedocs.io/en/latest/
 import platform # https://docs.python.org/3/library/platform.html
@@ -8,10 +8,12 @@ import re
 print("\n **Motherboard**")
 mb_manufacturer = open('/sys/devices/virtual/dmi/id/board_vendor', 'r').readline().rstrip()
 mb_model = open('/sys/devices/virtual/dmi/id/board_name', 'r').readline().rstrip()
+mb_board_version = open('/sys/devices/virtual/dmi/id/board_version', 'r').readline().rstrip()
 mb_bios_version = open('/sys/devices/virtual/dmi/id/bios_version', 'r').readline().rstrip()
-print(mb_manufacturer)
-print(mb_model)
-print(f"BIOS Version: {mb_bios_version}")
+print(f"Board Vender:  {mb_manufacturer}")
+print(f"Board Model:   {mb_model}")
+print(f"Board Version: {mb_board_version}")
+print(f"BIOS Version:  {mb_bios_version}")
 
 print("\n **CPU Hardware**")
 with open("/proc/cpuinfo") as f:

@@ -2,11 +2,13 @@
 
 board_name=`cat /sys/devices/virtual/dmi/id/board_name`
 board_vendor=`cat /sys/devices/virtual/dmi/id/board_vendor`
+board_version=`cat /sys/devices/virtual/dmi/id/board_version`
 bios_version=`cat /sys/devices/virtual/dmi/id/bios_version`
 printf "\n**Motherboard:\n"
-printf "  $board_vendor\n"
-printf "  $board_name\n"
-printf "  BIOS Version: $bios_version\n"
+printf "  Board Vendor:  $board_vendor\n"
+printf "  Board Name:    $board_name\n"
+printf "  Board Version: $board_version\n"
+printf "  BIOS Version:  $bios_version\n"
 
 cpu_info=`grep "model name" /proc/cpuinfo | head -1 | sed 's/^[^:]*: //'`
 cpu_speed_min=`lscpu | grep -o -P '(?<=CPU min MHz:).+' | grep -o -P '(\d|\.)+'`
