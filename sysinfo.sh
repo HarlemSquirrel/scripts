@@ -4,10 +4,12 @@ board_name=`cat /sys/devices/virtual/dmi/id/board_name`
 board_vendor=`cat /sys/devices/virtual/dmi/id/board_vendor`
 board_version=`cat /sys/devices/virtual/dmi/id/board_version`
 bios_version=`cat /sys/devices/virtual/dmi/id/bios_version`
+bios_date=`cat /sys/devices/virtual/dmi/id/bios_date`
 printf "\n**Motherboard:\n"
 printf "  Board Vendor:  $board_vendor\n"
 printf "  Board Name:    $board_name\n"
 printf "  Board Version: $board_version\n"
+printf "  BIOS Date:     $bios_date\n"
 printf "  BIOS Version:  $bios_version\n"
 
 cpu_info=`grep "model name" /proc/cpuinfo | head -1 | sed 's/^[^:]*: //'`
@@ -55,5 +57,3 @@ printf "\n\n**Software versions:\n"
 printf "  Kernel $kernel_version\n"
 printf "  $opengl_renderer\n"
 printf "  $opengl_software_version\n"
-
-
