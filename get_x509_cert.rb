@@ -13,6 +13,7 @@ port = (ARGV[1] || 443)
 cert = nil
 
 Net::HTTP.start(host, port, use_ssl: true, verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
+  # https://ruby-doc.org/stdlib/libdoc/openssl/rdoc/OpenSSL/X509/Certificate.html
   cert = http.peer_cert
 end
 
