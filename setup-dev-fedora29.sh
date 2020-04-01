@@ -61,6 +61,12 @@ atom_link=$(curl -s https://api.github.com/repos/atom/atom/releases/latest | gre
 wget --directory-prefix="$HOME/Downloads" --timestamping "$atom_link"
 sudo dnf install ~/Downloads/atom.x86_64.rpm
 
+# Postgres
+sudo dnf install postgresql-server postgresql-contrib postgresql-devel
+sudo systemctl enable postgresql
+sudo postgresql-setup --initdb --unit postgresql
+sudo systemctl start postgresql
+
 # RVM
 # https://rvm.io/
 gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
