@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Development environment setup on Fedora 29
+# Development environment setup on Fedora
+
+fedora_release="$(rpm -E %fedora)"
 
 # Remove old Docker versions
 sudo dnf remove docker \
@@ -33,8 +35,8 @@ sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce flameshot
 # RPM Fusion
 # https://rpmfusion.org/Configuration
 sudo dnf install \
-	https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-	https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$fedora_release.noarch.rpm \
+	https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$fedora_release.noarch.rpm
 
 # Enable codecs
 # https://srvfail.com/how-to-enable-h264-codec-on-fedora-28/
@@ -42,7 +44,7 @@ sudo dnf install -y compat-ffmpeg28 ffmpeg-libs
 
 # Install Docker Compose
 # https://docs.docker.com/compose/install/#install-compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Add user to docker group
@@ -86,9 +88,6 @@ sudo dnf install yarn
 
 # Zoom
 # https://zoom.us/download#client_4meeting
-wget --directory-prefix=~/Downloads --timestamping \
-	"https://zoom.us/client/latest/zoom_x86_64.rpm"
-sudo dnf install ~/Downloads/zoom_x86_64.rpm
-
+sudo dnf install https://zoom.us/client/latest/zoom_x86_64.rpm
 
 printf "\nDone! :)\n"
