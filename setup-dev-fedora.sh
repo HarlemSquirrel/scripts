@@ -29,7 +29,7 @@ sudo dnf config-manager \
 # Install packages
 sudo dnf install ansible elfutils-libelf-devel chromium curl docker-ce flameshot fuse-sshfs \
 								 git gnome-tweaks httpd kernel-devel openldap-clients \
-                 util-linux-user vim xdotool zsh zsh-syntax-highlighting \
+                 the_silver_searcher util-linux-user vim xdotool zsh zsh-syntax-highlighting \
 								 openssl-devel ruby
 
 # RPM Fusion
@@ -53,6 +53,11 @@ sudo usermod -aG docker $(whoami)
 # Install Slack from Flathub
 # https://flathub.org/apps/details/com.slack.Slack
 flatpak install flathub com.slack.Slack
+
+# fzf
+# https://github.com/junegunn/fzf#using-git
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
 
 # oh-my-zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
