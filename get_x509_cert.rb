@@ -7,12 +7,13 @@
 # echo | openssl s_client -servername $host -connect $host:443 2>/dev/null | openssl x509 -text
 
 require 'net/http'
+require 'openssl'
 
 host = ARGV[0]
 port = (ARGV[1] || 443)
 cert = nil
 
-Net::HTTP.start(host, port, use_ssl: true, verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
+Net::HTTP.start(host, port, use_ssl: true, verify_mode: OpenSSL::SSL::VERIFY_NONE, min_version: nil) do |http|
   # https://ruby-doc.org/stdlib/libdoc/openssl/rdoc/OpenSSL/X509/Certificate.html
   cert = http.peer_cert
 end
