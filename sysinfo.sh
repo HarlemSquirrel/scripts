@@ -20,17 +20,17 @@ printf "  $cpu_info\n"
 printf "  Configured Clock Speeds: $cpu_speed_min - $cpu_speed_max MHz\n"
 
 if [[ $EUID > 0 ]]; then
-	printf "(Run as root to see CPU boost speed)\n"
+  printf "(Run as root to see CPU boost speed)\n"
 else
-	cpu_max_boost_speed=`dmidecode -t processor | grep -o -P '(?<=Max Speed: ).+'`
-	printf "  Configured Max Speed: $cpu_max_boost_speed\n"
+  cpu_max_boost_speed=`dmidecode -t processor | grep -o -P '(?<=Max Speed: ).+'`
+  printf "  Configured Max Speed: $cpu_max_boost_speed\n"
 fi
 
 printf "\n\n**System Memory:\n"
 if [[ $EUID > 0 ]]; then
-	printf "(Run as root to see more memory info)\n"
+  printf "(Run as root to see more memory info)\n"
 else
-	dmidecode -t memory | grep -P '(Memory Device|\tBank Locator: \w+|\tSpeed: \d+|\tSize: \d+|Configured Voltage: [0-9]|Part Number:|\tManufacturer:)'
+  dmidecode -t memory | grep -P '(Memory Device|\tBank Locator: \w+|\tSpeed: \d+|\tSize: \d+|Configured Voltage: [0-9]|Part Number:|\tManufacturer:)'
 fi
 
 gpu_name=`lspci -v -s $(lspci -v | grep VGA | cut -d ' ' -f 1) | grep -oP "(?<=\tSubsystem: ).+"`
@@ -46,9 +46,9 @@ printf "  Power Max: $gpu_power_cap Watts\n"
 
 printf "\n\n**Storage:\n"
 if [[ $EUID > 0 ]]; then
-	printf "(Run as root to see NVME storage info)\n"
+  printf "(Run as root to see NVME storage info)\n"
 else
-	nvme smart-log /dev/nvme0
+  nvme smart-log /dev/nvme0
 fi
 
 kernel_version=`uname -r`
