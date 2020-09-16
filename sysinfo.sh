@@ -35,7 +35,8 @@ fi
 
 gpu_name=`lspci -v -s $(lspci -v | grep VGA | cut -d ' ' -f 1) | grep -oP "(?<=\tSubsystem: ).+"`
 gpu_memory_total="$(($(cat /sys/class/drm/card0/device/mem_info_vram_total) / 2**20))"
-gpu_power_cap="$(($(cat /sys/class/drm/card0/device/hwmon/hwmon0/power1_cap)  / 1000000))"
+gpu_power_cap="$(($(find /sys/class/drm/card0/device/ -name power1_cap -exec cat {} \;)  /
+1000000))"
 gpu_vbios_version=`cat /sys/class/drm/card0/device/vbios_version`
 printf "\n\n**GPU hardware:\n"
 printf "  $gpu_name\n"
