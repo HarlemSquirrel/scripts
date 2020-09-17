@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-3d_printing=(blender inkscape openscad eigen)
+printing_3d=(blender inkscape openscad eigen)
 cli=(fzf zsh)
 inkscape_recommends=(pstoedit  python2-scour texlive-core python2-lxml uniconvertor)
 dev_tools=(atom ctags docker docker-compose git gnome-nettool nmap postgresql phantomjs qt5-webkit terminator vim yarn)
@@ -13,7 +13,7 @@ vlc=(vlc libmicrodns protobuf)
 office=(libreoffice-fresh gimp simple-scan thunderbird)
 qt_tools=(qt5-wayland)
 system=(lm_sensors mesa-demos gufw smartmontools xdotool)
-themes=(arc-gtk-theme)
+themes=(arc-gtk-theme arc-icon-theme)
 
 printf 'CLI'
 sudo pacman -S ${cli[*]}
@@ -29,6 +29,9 @@ sudo pacman -S ${gaming[*]}
 
 printf 'General...\n'
 sudo pacman -S ${general[*]}
+
+printf '3D Printing...\n'
+sudo pacman -S ${printing_3d[*]}
 
 printf 'HP Printing...\n'
 sudo pacman -S ${hp_printing[*]}
