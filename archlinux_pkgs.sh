@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
 
 printing_3d=(blender inkscape openscad eigen)
-cli=(fzf zsh)
+shell=(fzf man tmux zsh)
 inkscape_recommends=(pstoedit  python2-scour texlive-core python2-lxml uniconvertor)
-dev_tools=(atom ctags docker docker-compose git gnome-nettool nmap postgresql phantomjs qt5-webkit terminator vim yarn)
+dev_tools=(alacritty atom ctags devtools docker docker-compose git postgresql qt5-webkit vim yarn)
 fonts=(ttf-dejavu)
 gaming=(steam steam-native-runtime)
 general=(chromium deja-dup dropbox firefox)
 hp_printing=(hplip python-reportlab python-pyqt4 python-pyqt5 sane xsane)
-media=(audacious minidlna sound-juicer libaacs libva-mesa-driver mesa-vdpau lib32-mesa-vdpau)
+media=(audacious gthumb minidlna sound-juicer libaacs libva-mesa-driver mesa-vdpau lib32-mesa-vdpau)
+networking=(gnome-nettool inetutils nmap)
 vlc=(vlc libmicrodns protobuf)
 office=(libreoffice-fresh gimp simple-scan thunderbird)
 qt_tools=(qt5-wayland)
-system=(lm_sensors mesa-demos gufw smartmontools xdotool)
+system=(btrfs-progs dmidecode gufw lm_sensors mesa-demos nvme reflector smartmontools xdotool)
 themes=(arc-gtk-theme arc-icon-theme)
 
-printf 'CLI'
-sudo pacman -S ${cli[*]}
+printf 'Shell...'
+sudo pacman -S ${shell[*]}
 
-printf 'Dev tools ...\n'
-sudo pacman -S ${dev_tools[*]}
+printf 'Dev tools and networking...\n'
+sudo pacman -S ${dev_tools[*]} ${networking[*]}
 
 printf 'Fonts...\n'
 sudo pacman -S ${fonts[*]}
