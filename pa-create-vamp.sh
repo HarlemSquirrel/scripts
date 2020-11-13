@@ -20,5 +20,5 @@ pactl load-module module-null-sink \
 # Create the virtual input device
 # https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-remap-source
 pactl load-module module-remap-source \
-  source_name=Remap-Source
+  source_name=Remap-Source \
   master=VAMP.monitor
