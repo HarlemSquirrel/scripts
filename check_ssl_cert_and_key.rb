@@ -14,6 +14,11 @@ require 'openssl'
 cert_file = ARGV[0]
 key_file = ARGV[1]
 
+if cert_file.nil? || key_file.nil?
+  puts 'Please provide the certificate and key files as arguments.'
+  exit 1
+end
+
 key = OpenSSL::PKey::RSA.new File.read(key_file)
 cert = OpenSSL::X509::Certificate.new File.read(cert_file)
 
