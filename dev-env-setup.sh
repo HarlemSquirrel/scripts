@@ -5,7 +5,16 @@ set -e
 
 if command -v apt-get 2>/dev/null; then
 	printf "\n==> Installing dependencies with apt-get...\n"
-	sudo apt-get install atom curl git python3-pip vim zsh
+	sudo apt-get install atom curl git libpq-dev python3-pip vim zsh
+
+	# Docker
+    # https://docs.docker.com/engine/install/ubuntu/
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
+	sudo apt-get install docker-ce docker-ce-cli containerd.io
 fi
 
 # fzf
@@ -43,5 +52,11 @@ if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+
+# Python packages
+pip install --user --upgrade docker-compose dotfiles speedtest-cli
+
+printf "\n==> Adding user to some groups...\n"
+sudo gpasswd --add $USER docker
 
 printf "\nDone! :)\n"
