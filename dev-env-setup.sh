@@ -69,4 +69,12 @@ pip install --user --upgrade docker-compose dotfiles speedtest-cli
 printf "\n==> Adding user to some groups...\n"
 sudo gpasswd --add $USER docker
 
+# Atom
+if command -v apm 2>/dev/null; then
+	printf "\n==> Installing Atom packages...\n"
+  apm install editorconfig language-generic-config
+else
+  printf "\n==> Not found: apm. SKIPPING Atom packages...\n"
+fi
+
 printf "\nDone! :)\n"
