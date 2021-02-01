@@ -72,7 +72,8 @@ sudo gpasswd --add $USER docker
 # Atom
 if command -v apm 2>/dev/null; then
 	printf "\n==> Installing Atom packages...\n"
-  apm install editorconfig language-generic-config
+  apm install editorconfig language-dotenv language-generic-config language-haml \
+	            linter-eslint linter-rubocop sort-lines
 else
   printf "\n==> Not found: apm. SKIPPING Atom packages...\n"
 fi
