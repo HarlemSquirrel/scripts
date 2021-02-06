@@ -1,28 +1,31 @@
 #!/bin/bash
 
-# Exit if any command fails
-set -e
-
 if command -v apt-get 2>/dev/null; then
-	printf "\n==> Installing dependencies with apt-get...\n"
-	sudo apt-get install atom curl git libpq-dev python3-pip vim zsh
+  printf "\n==> Installing dependencies with apt-get...\n"
+  sudo apt-get install atom curl git libpq-dev python3-pip vim zsh
 
-	# Docker
+  # Docker
     # https://docs.docker.com/engine/install/ubuntu/
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	sudo add-apt-repository \
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository \
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) \
     stable"
-	sudo apt-get install docker-ce docker-ce-cli containerd.io
+  sudo apt-get install docker-ce docker-ce-cli containerd.io
+elif command -v pacman >>/dev/null; then
+  printf "\n==> Installing dependencies with pacman...\n"
+  sudo pacman -S atom curl docker docker-compose git postgresql-libs python-pip vim zsh
 fi
+
+# Exit if any command fails
+set -e
 
 # fzf
 # https://github.com/junegunn/fzf#using-git
-if [ ! -d "$HOME/.fzf" ]; then
+if ( ! command -v fzf >>/dev/null ); then
   printf "\n==> Getting fzf...\n"
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install
+  #git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  #~/.fzf/install
 fi
 
 # NVM
@@ -64,7 +67,10 @@ if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
 fi
 
 # Python packages
-pip install --user --upgrade docker-compose dotfiles speedtest-cli
+pip install --user --upgrade dotfiles bpytop speedtest-cli
+if ! command -v docker-compose >>/dev/null; then
+  pip install --user --upgrade docker-compose
+fi
 
 printf "\n==> Adding user to some groups...\n"
 sudo gpasswd --add $USER docker
@@ -74,7 +80,7 @@ if command -v apm 2>/dev/null; then
   printf "\n==> Installing Atom packages...\n"
   apm install atom-beautify editorconfig \
       language-dotenv language-generic-config language-haml \
-       linter-eslint linter-rubocop sort-lines
+      linter-eslint linter-json linter-rubocop sort-lines
 else
   printf "\n==> Not found: apm. SKIPPING Atom packages...\n"
 fi
