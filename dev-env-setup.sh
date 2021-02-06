@@ -80,7 +80,7 @@ if command -v apm 2>/dev/null; then
   printf "\n==> Installing Atom packages...\n"
   apm install atom-beautify editorconfig \
       language-dotenv language-generic-config language-haml \
-      linter-eslint linter-json linter-rubocop sort-lines
+      linter-eslint linter-jsonlint linter-rubocop sort-lines
 else
   printf "\n==> Not found: apm. SKIPPING Atom packages...\n"
 fi
