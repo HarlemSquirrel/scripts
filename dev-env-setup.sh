@@ -2,7 +2,7 @@
 
 if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install atom curl git libpq-dev python3-pip vim zsh
+  sudo apt-get install atom curl git libpq-dev peek python3-pip vim zsh
 
   # Docker
     # https://docs.docker.com/engine/install/ubuntu/
@@ -14,7 +14,7 @@ if command -v apt-get 2>/dev/null; then
   sudo apt-get install docker-ce docker-ce-cli containerd.io
 elif command -v pacman >>/dev/null; then
   printf "\n==> Installing dependencies with pacman...\n"
-  sudo pacman -S atom curl docker docker-compose git postgresql-libs python-pip vim zsh
+  sudo pacman -S atom curl docker docker-compose git peek postgresql-libs python-pip vim zsh
 fi
 
 # Exit if any command fails
