@@ -2,7 +2,7 @@
 
 if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install atom curl git libpq-dev peek python3-pip vim zsh
+  sudo apt-get install atom curl git imagemagick libpq-dev peek python3-pip vim zsh
 
   # Docker
     # https://docs.docker.com/engine/install/ubuntu/
