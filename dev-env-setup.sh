@@ -1,6 +1,11 @@
 #!/bin/bash
 
 if command -v apt-get 2>/dev/null; then
+  # https://flight-manual.atom.io/getting-started/sections/installing-atom/
+  printf "\n==> Adding Atom PPA...\n"
+  wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+  sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+
   printf "\n==> Installing dependencies with apt-get...\n"
   sudo apt-get install atom curl git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
 
@@ -30,14 +35,16 @@ fi
 
 # NVM
 # https://github.com/nvm-sh/nvm
-printf "\n==> Installing/updating NVM...\n"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+if ( ! command -v nvm >>/dev/null ); then
+  printf "\n==> Installing/updating NVM...\n"
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-nvm install node
+  nvm install node
+fi
 
 # Yarn
 # https://yarnpkg.com/getting-started/install
