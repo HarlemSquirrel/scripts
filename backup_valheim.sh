@@ -5,4 +5,4 @@
 # characters and worlds.
 #
 
-zip -r ~/valheim-world-backup-$(date +%Y%m%d_%H%M).zip ~/.config/unity3d/IronGate/Valheim/
+zip -r ~/Dropbox/Valheim/valheim-world-backup-$(date +%Y%m%d_%H%M).zip ~/.config/unity3d/IronGate/Valheim/
