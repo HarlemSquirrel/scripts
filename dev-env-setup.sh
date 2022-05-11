@@ -1,6 +1,8 @@
 #!/bin/bash
 
 if command -v apt-get 2>/dev/null; then
+  printf "\n==> Installing dependencies with apt...\n"
+
   # https://flight-manual.atom.io/getting-started/sections/installing-atom/
   printf "\n==> Adding Atom PPA...\n"
   wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
@@ -10,16 +12,25 @@ if command -v apt-get 2>/dev/null; then
   sudo apt-get install atom curl git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
 
   # Docker
-    # https://docs.docker.com/engine/install/ubuntu/
+  # https://docs.docker.com/engine/install/ubuntu/
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository \
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) \
     stable"
   sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+  # GitHub CLI
+  # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+    | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  sudo apt update
+  sudo apt install gh
 elif command -v pacman >>/dev/null; then
   printf "\n==> Installing dependencies with pacman...\n"
-  sudo pacman -S atom curl docker docker-compose git peek postgresql-libs python-pip vim zsh
+
+  sudo pacman -S atom curl docker docker-compose git github-cli peek postgresql-libs python-pip vim zsh
 fi
 
 # Exit if any command fails
