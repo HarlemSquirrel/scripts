@@ -11,7 +11,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 ## Set the old version that we want to upgrade from.
-export FROM_VERSION=10
+FROM_VERSION=$(< /var/lib/postgres/data/PG_VERSION)
 
 pacman -S --needed postgresql-old-upgrade
 chown postgres:postgres /var/lib/postgres/
