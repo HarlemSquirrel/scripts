@@ -1,3 +1,3 @@
 # Scripts
 
-A set of utility scripts
+A bucket o' scripts
