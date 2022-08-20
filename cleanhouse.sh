@@ -28,6 +28,10 @@ elif command -v pacman >/dev/null 2>&1; then
   sudo paccache -ruk0
 fi
 
+if command -v flatpak >/dev/null 2>&1; then
+  colorprintf orange "\nRemoving unused Flatpak packages...\n"
+  flatpak remove --unused
+fi
 # printf "Cleaning up config, cache, and share files in the home directory...\n"
 # find ~/.config/* -atime +90 | wc -l
 # find ~/.config/* -atime +90 -delete
