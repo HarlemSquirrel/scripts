@@ -9,7 +9,8 @@ if command -v apt-get 2>/dev/null; then
   sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
 
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install atom curl git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
+  sudo apt-get install curl git imagemagick libmagickwand-dev libpq-dev peek postgresql-14 \
+    postgresql-client-14 postgis postgresql-14-postgis-3 python3-pip vim zsh
 
   # Docker
   # https://docs.docker.com/engine/install/ubuntu/
