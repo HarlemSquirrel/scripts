@@ -4,7 +4,7 @@ if command -v apt >/dev/null 2>&1; then
   sudo apt update -qq && sudo apt full-upgrade
 fi
 
-if pacman -v apt >/dev/null 2>&1; then
+if command -v pacman >/dev/null 2>&1; then
   sudo pacman -Syu
 fi
 
