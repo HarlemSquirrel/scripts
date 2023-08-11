@@ -3,14 +3,9 @@
 if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
 
-  # https://flight-manual.atom.io/getting-started/sections/installing-atom/
-  printf "\n==> Adding Atom PPA...\n"
-  wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
-  sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
-
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install curl git imagemagick libmagickwand-dev libpq-dev peek postgresql-14 \
-    postgresql-client-14 postgis postgresql-14-postgis-3 python3-pip vim zsh
+  sudo apt-get install curl git imagemagick libmagickwand-dev libpq-dev peek postgresql-15 \
+    postgresql-client-15 postgis postgresql-14-postgis-3 python3-pip vim zsh
 
   # Docker
   # https://docs.docker.com/engine/install/ubuntu/
@@ -19,7 +14,7 @@ if command -v apt-get 2>/dev/null; then
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) \
     stable"
-  sudo apt-get install docker-ce docker-ce-cli containerd.io
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   # GitHub CLI
   # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
@@ -41,8 +36,8 @@ set -e
 # https://github.com/junegunn/fzf#using-git
 if ( ! command -v fzf >>/dev/null ); then
   printf "\n==> Getting fzf...\n"
-  #git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  #~/.fzf/install
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install
 fi
 
 # NVM
@@ -93,15 +88,5 @@ fi
 
 printf "\n==> Adding user to some groups...\n"
 sudo gpasswd --add $USER docker
-
-# Atom
-if command -v apm 2>/dev/null; then
-  printf "\n==> Installing Atom packages...\n"
-  apm install atom-beautify editorconfig \
-      language-dotenv language-generic-config language-haml \
-      linter-eslint linter-jsonlint linter-rubocop sort-lines
-else
-  printf "\n==> Not found: apm. SKIPPING Atom packages...\n"
-fi
 
 printf "\nDone! :)\n"
