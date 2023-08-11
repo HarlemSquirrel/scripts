@@ -4,8 +4,10 @@ if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
 
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install curl git imagemagick libmagickwand-dev libpq-dev peek postgresql-15 \
-    postgresql-client-15 postgis postgresql-14-postgis-3 python3-pip vim zsh
+  sudo apt-get install curl git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
+
+  # Postgres
+  sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
 
   # Docker
   # https://docs.docker.com/engine/install/ubuntu/
