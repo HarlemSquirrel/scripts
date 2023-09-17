@@ -4,7 +4,7 @@ if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
 
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install curl git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
+  sudo apt-get install curl dnsutils git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
 
   # Postgres
   sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
@@ -53,6 +53,12 @@ if ( ! command -v nvm >>/dev/null ); then
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
   nvm install node
+fi
+
+# Rust
+# https://www.rust-lang.org/learn/get-started
+if ( ! command -v cargo >>/dev/null ); then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 
 # Yarn
