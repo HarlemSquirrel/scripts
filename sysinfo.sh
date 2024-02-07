@@ -37,10 +37,10 @@ printf "\n*From decode-dimms:\n"
 decode-dimms 2>>/dev/null | grep -P '(Guessing DIMM is in|Supported CAS Latencies|Size|Fundamental Memory type|CAS Latency)'
 
 gpu_name=`lspci -v -s $(lspci -v | grep VGA | cut -d ' ' -f 1) | grep -oP "(?<=\tSubsystem: ).+"`
-gpu_memory_total="$(($(cat /sys/class/drm/card0/device/mem_info_vram_total) / 2**20))"
-gpu_power_cap="$(($(find /sys/class/drm/card0/device/ -name power1_cap -exec cat {} \;)  /
+gpu_memory_total="$(($(cat /sys/class/drm/card1/device/mem_info_vram_total) / 2**20))"
+gpu_power_cap="$(($(find /sys/class/drm/card1/device/ -name power1_cap -exec cat {} \;)  /
 1000000))"
-gpu_vbios_version=`cat /sys/class/drm/card0/device/vbios_version`
+gpu_vbios_version=`cat /sys/class/drm/card1/device/vbios_version`
 printf "\n\n**GPU hardware:\n"
 printf "  $gpu_name\n"
 printf "  vBios Version: $gpu_vbios_version\n"
