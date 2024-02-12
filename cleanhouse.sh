@@ -15,6 +15,16 @@ printf "\nWe are now going to clean some shit up...\n"
 # sudo find /var/* -atime +30 | wc -l
 # sudo find /var/* -atime +30 -delete
 
+if command -v rvm >/dev/null 2>&1; then
+  colorprintf orange "\nRunning rvm cleanup all...\n"
+  rvm clean
+  up all
+fi
+if command -v nvm >/dev/null 2>&1; then
+  colorprintf orange "\nRunning nvm cache clear...\n"
+  nvm cache clear
+fi
+
 if command -v apt >/dev/null 2>&1; then
   colorprintf orange "\nRunning apt autoremove and autoclean...\n"
   sudo apt -y autoremove
