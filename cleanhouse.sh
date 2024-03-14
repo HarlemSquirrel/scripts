@@ -17,8 +17,7 @@ printf "\nWe are now going to clean some shit up...\n"
 
 if command -v rvm >/dev/null 2>&1; then
   colorprintf orange "\nRunning rvm cleanup all...\n"
-  rvm clean
-  up all
+  rvm cleanup all
 fi
 if command -v nvm >/dev/null 2>&1; then
   colorprintf orange "\nRunning nvm cache clear...\n"
@@ -49,6 +48,11 @@ fi
 # find ~/.cache/* -atime +90 -delete
 # find ~/.local/share/* -atime +90 | wc -l
 # find ~/.local/share/* -atime +90 -delete
+
+if command -v docker &>/dev/null; then
+  colorprintf orange "\nRunning docker prune....\n"
+  docker system prune
+fi
 
 colorprintf orange "\nRemoving broken symlinks...\n"
 find ~/. -type l -! -exec test -e {} \; -print | wc -l
