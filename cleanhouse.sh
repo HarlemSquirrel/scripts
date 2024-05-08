@@ -34,7 +34,11 @@ if command -v apt >/dev/null 2>&1; then
 elif command -v pacman >/dev/null 2>&1; then
   colorprintf orange "\nCleaning up Pacman cache...\n"
   sudo paccache -r
-  sudo paccache -ruk0
+  sudo paccache -ru
+  if [ -d $HOME/.cache/pikaur/pkg ]; then
+    paccache -rk2 --cachedir=$HOME/.cache/pikaur/pkg
+    paccache -ruk2 --cachedir=$HOME/.cache/pikaur/pkg
+  fi
 fi
 
 if command -v flatpak >/dev/null 2>&1; then
