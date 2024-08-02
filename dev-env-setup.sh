@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
@@ -71,6 +71,14 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	printf "\n==> Getting Oh My Zsh...\n"
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
+
+# Starship
+# https://starship.rs/
+if ( ! command -v starship > /dev/null ); then
+  printf "\n==> Getting Starship...\n"
+  curl -sS https://starship.rs/install.sh | sh
+fi
+
 
 # RVM
 # https://rvm.io/
