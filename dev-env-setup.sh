@@ -28,7 +28,7 @@ if command -v apt-get 2>/dev/null; then
 elif command -v pacman >>/dev/null; then
   printf "\n==> Installing dependencies with pacman...\n"
 
-  sudo pacman -S atom curl docker docker-compose git github-cli peek postgresql-libs python-pip vim zsh
+  sudo pacman -S android-tools curl docker docker-compose git github-cli peek postgresql-libs python-pip starship ttf-font-nerd vim zsh
 fi
 
 # Exit if any command fails
