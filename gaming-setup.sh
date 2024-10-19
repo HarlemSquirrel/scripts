@@ -23,14 +23,10 @@ if command -v apt >>/dev/null; then
     # 3. Update your package database and install Signal:
     sudo apt update && sudo apt install signal-desktop
   fi
-fi # end apt
-
-if command -v snap >>/dev/null; then
-  printf "\n==> Installing dependencies with snap...\n"
 
   if ( ! command -v steam >>/dev/null ); then
-    snap install steam
+    sudo apt install steam-installer
   fi
-fi
+fi # end apt
 
 printf "\nDone\n"
