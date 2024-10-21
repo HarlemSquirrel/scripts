@@ -9,6 +9,10 @@ if command -v apt-get 2>/dev/null; then
   # Postgres
   sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
 
+  if ( ! command -v add-apt-repository >>/dev/null ); then
+    sudo apt install software-properties-common
+  fi
+
   # Docker
   # https://docs.docker.com/engine/install/ubuntu/
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -

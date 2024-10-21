@@ -3,11 +3,21 @@
 if command -v apt >>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
 
+  if ( ! command -v add-apt-repository >>/dev/null ); then
+    sudo apt install software-properties-common
+  fi
+
   if ( ! command -v polychromatic-cli >>/dev/null ); then
     # https://polychromatic.app/download/ubuntu/
     sudo add-apt-repository ppa:openrazer/stable
     sudo add-apt-repository ppa:polychromatic/stable
     sudo apt install openrazer-meta polychromatic
+  fi
+
+  if ( ! command -v ail-cli >>/dev/null); then
+    # https://github.com/TheAssassin/AppImageLauncher
+    sudo add-apt-repository ppa:appimagelauncher-team/stable
+    sudo apt install appimagelauncher
   fi
 
   if ( ! command -v signal-desktop >>/dev/null ); then
