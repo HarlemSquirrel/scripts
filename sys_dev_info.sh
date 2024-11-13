@@ -9,6 +9,12 @@ fi
 printf "\n\n Default shell: ${SHELL}\n"
 
 if command -v node >>/dev/null; then
+  printf "\n\n  Git\n"
+  git --version
+  git --no-pager config -l
+fi
+
+if command -v node >>/dev/null; then
   printf "\n\n  Node.js\n"
   printf "node $(node --version)\n"
   printf "npm $(npm --version)\n"
@@ -47,4 +53,5 @@ fi
 if command -v brew >>/dev/null; then
   printf "\n\n  Homebrew\n"
   brew --version
+  brew info
 fi
