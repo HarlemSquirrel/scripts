@@ -9,10 +9,43 @@ fi
 
 printf "\n\n Default shell: ${SHELL}\n"
 
-if command -v node >>/dev/null; then
+if command -v assume >>/dev/null; then
+  assume --version
+fi
+
+if command -v aws >>/dev/null; then
+  aws --version
+fi
+
+if command -v brew >>/dev/null; then
+  printf "\n\n  Homebrew\n"
+  brew --version
+  brew info
+fi
+
+if command -v docker >>/dev/null; then
+  printf "\n\n  Docker\n"
+  docker --version
+  docker compose version
+fi
+
+if command -v git >>/dev/null; then
   printf "\n\n  Git\n"
   git --version
   git --no-pager config -l
+fi
+
+if command -v make >>/dev/null; then
+  printf "\n\n  Make\n"
+  make --version
+fi
+
+printf "\n\n  C\n"
+if command -v clang >>/dev/null; then
+  clang --version
+fi
+if command -v gcc >>/dev/null; then
+  gcc --version
 fi
 
 if command -v node >>/dev/null; then
@@ -31,28 +64,9 @@ if command -v ruby >>/dev/null; then
   fi
 fi
 
-if command -v make >>/dev/null; then
-  printf "\n\n  Make\n"
-  make --version
-fi
-
-printf "\n\n  C\n"
-if command -v clang >>/dev/null; then
-  clang --version
-fi
-
-if command -v gcc >>/dev/null; then
-  gcc --version
-fi
-
 if command -v cargo >>/dev/null; then
   printf "\n\n  Rust\n"
   cargo --version
+  rustc --version
   rustup --version
-fi
-
-if command -v brew >>/dev/null; then
-  printf "\n\n  Homebrew\n"
-  brew --version
-  brew info
 fi
