@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if command -v fastfetch >>/dev/null; then
+  # https://github.com/fastfetch-cli/fastfetch
   fastfetch
 elif command -v sw_vers >>/dev/null; then
   printf "MacOS $(sw_vers -productVersion)\n"
