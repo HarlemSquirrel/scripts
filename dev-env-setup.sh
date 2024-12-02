@@ -4,7 +4,7 @@ if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
 
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install curl dnsutils git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
+  sudo apt-get install curl dnsutils fonts-firacode git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
 
   # Postgres
   sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
@@ -32,7 +32,7 @@ if command -v apt-get 2>/dev/null; then
 elif command -v pacman >>/dev/null; then
   printf "\n==> Installing dependencies with pacman...\n"
 
-  sudo pacman -S android-tools curl docker docker-compose git github-cli peek postgresql-libs python-pip starship ttf-font-nerd vim zsh
+  sudo pacman -S android-tools curl docker docker-compose git github-cli peek postgresql-libs python-pip starship ttf-firacode-nerd vim zsh
 fi
 
 # Exit if any command fails
