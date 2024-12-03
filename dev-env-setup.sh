@@ -4,7 +4,7 @@ if command -v apt-get 2>/dev/null; then
   printf "\n==> Installing dependencies with apt...\n"
 
   printf "\n==> Installing dependencies with apt-get...\n"
-  sudo apt-get install curl dnsutils fonts-firacode git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
+  sudo apt-get install curl dnsutils git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
 
   # Postgres
   sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
@@ -74,6 +74,13 @@ npm install -g yarn
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	printf "\n==> Getting Oh My Zsh...\n"
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+# Nerd Font
+if ( ! fc-list : family | grep "FiraCode Nerd Font" > /dev/null ); then
+  printf "\n==> Getting NerdFont FiraCode...\n"
+  curl -sL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraCode.zip -o /tmp/FiraCode.zip
+  unzip -o -d ~/.fonts /tmp/FiraCode.zip '*.ttf'
 fi
 
 # Starship
