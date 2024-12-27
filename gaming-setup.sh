@@ -37,6 +37,9 @@ if command -v apt >>/dev/null; then
   if ( ! command -v steam >>/dev/null ); then
     sudo apt install steam-installer
   fi
-fi # end apt
+elif command -v pacman >>/dev/null; then
+  sudo pacman -S lutris steam gamescope gamemode lib32-gamemode lib32-vkd3d umu-launcher
+fi
+
 
 printf "\nDone\n"
