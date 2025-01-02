@@ -15,13 +15,24 @@ printf "\nWe are now going to clean some shit up...\n"
 # sudo find /var/* -atime +30 | wc -l
 # sudo find /var/* -atime +30 -delete
 
+if command -v brew >/dev/null 2>&1; then
+  colorprintf orange "\nRunning brew cleanup...\n"
+  brew cleanup
+fi
+
+if command -v nvm >/dev/null 2>&1; then
+  colorprintf orange "\nRunning nvm cache clear...\n"
+  nvm cache clear
+fi
+
 if command -v rvm >/dev/null 2>&1; then
   colorprintf orange "\nRunning rvm cleanup all...\n"
   rvm cleanup all
 fi
-if command -v nvm >/dev/null 2>&1; then
-  colorprintf orange "\nRunning nvm cache clear...\n"
-  nvm cache clear
+
+if command -v yarn >/dev/null 2>&1; then
+  colorprintf orange "\nRunning yarn cache clean...\n"
+  yarn cache clean
 fi
 
 if command -v apt >/dev/null 2>&1; then
