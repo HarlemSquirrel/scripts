@@ -32,7 +32,7 @@ if command -v apt-get 2>/dev/null; then
 elif command -v pacman >>/dev/null; then
   printf "\n==> Installing dependencies with pacman...\n"
 
-  sudo pacman -S android-tools curl docker docker-compose git github-cli peek postgresql-libs python-pip starship ttf-firacode-nerd vim zsh
+  sudo pacman -S android-tools bind curl docker docker-compose git github-cli peek postgresql-libs python-pip starship ttf-firacode-nerd vim zsh
 fi
 
 # Exit if any command fails
@@ -48,16 +48,16 @@ fi
 
 # NVM
 # https://github.com/nvm-sh/nvm
-if ( ! command -v nvm >>/dev/null ); then
-  printf "\n==> Installing/updating NVM...\n"
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-  nvm install node
-fi
+# if ( ! command -v nvm >>/dev/null ); then
+#   printf "\n==> Installing/updating NVM...\n"
+#   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+#
+#   export NVM_DIR="$HOME/.nvm"
+#   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#
+#   nvm install node
+# fi
 
 # Rust
 # https://www.rust-lang.org/learn/get-started
@@ -93,11 +93,11 @@ fi
 
 # RVM
 # https://rvm.io/
-if [ ! -d "$HOME/.rvm" ]; then
-	printf "\n==> Getting RVM...\n"
-	gpg --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-	curl -sSL https://get.rvm.io | bash -s stable
-fi
+ #if [ ! -d "$HOME/.rvm" ]; then
+ #	printf "\n==> Getting RVM...\n"
+ #	gpg --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+ #	curl -sSL https://get.rvm.io | bash -s stable
+ #fi
 
 # vim-plug
 # https://github.com/junegunn/vim-plug
