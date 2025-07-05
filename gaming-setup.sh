@@ -38,7 +38,20 @@ if command -v apt >>/dev/null; then
     sudo apt install steam-installer
   fi
 elif command -v pacman >>/dev/null; then
-  sudo pacman -S lutris steam gamescope gamemode lib32-gamemode lib32-vkd3d umu-launcher
+  sudo pacman -S fastfetch lutris signal-desktop steam openrgb gamescope gamemode lib32-gamemode lib32-vkd3d umu-launcher linux-headers
+
+  sudo gpasswd -a $USER gamemode
+  sudo gpasswd -a $USER plugdev
+  sudo gpasswd -a $USER i2c
+
+  # https://aur.archlinux.org/packages/paru
+  paru -S polychromatic
+
+  # https://wiki.archlinux.org/title/Gaming#Increase_vm.max_map_count
+  grep "vm.max_map_count" /etc/sysctl.d/80-gamecompatibility.conf || echo "vm.max_map_count = 2147483642" | sudo tee /etc/sysctl.d/80-gamecompatibility.conf
+
+  # Apply the changes without reboot
+  sudo sysctl --system
 fi
 
 
