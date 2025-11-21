@@ -26,8 +26,23 @@ print(cpu_model_name)
 print(cpu_core_count, "cores")
 
 print("\n **GPU Hardware**")
-subprocess.run('glxinfo 2>&1 | grep "OpenGL renderer string"', shell=True, check=False).stdout
-subprocess.run('lspci -d ::0300 -nn', shell=True, check=False).stdout
+# subprocess.run('glxinfo 2>&1 | grep "OpenGL renderer string"', shell=True, check=False).stdout
+gpu_pci_ids = subprocess.run("lspci -v | grep VGA | cut -d ' ' -f 1", shell=True, check=False, capture_output=True, text=True).stdout.strip().split('\n')
+for gpu_pci_id in gpu_pci_ids:
+    # Capture info as a dictionary
+    gpu_output = subprocess.run(f'lspci -s {gpu_pci_id} -v', shell=True, check=False, capture_output=True, text=True).stdout
+    gpu_info = {}
+    for line in gpu_output.splitlines():
+        match = re.match(r'^(?P<id>[0-9a-fA-F:.]+)\s+(?P<desc>.+)$', line)
+        if match:
+            gpu_info['pci_id'] = match.group('id')
+            key_value = match.group('desc')
+        elif ':' in line:
+            key_value = line
+        key, value = key_value.split(':', 1)
+        gpu_info[key.strip()] = value.strip()
+    print(gpu_pci_id, gpu_info['Subsystem'], gpu_info['VGA compatible controller'], sep="\n  ")
+# subprocess.run('lspci -d ::0300 -nn', shell=True, check=False).stdout
 
 print("\n **Software**")
 # subprocess.run('uname -r', shell=True, check=False).stdout

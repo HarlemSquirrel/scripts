@@ -36,16 +36,17 @@ fi
 printf "\n*From decode-dimms:\n"
 decode-dimms 2>>/dev/null | grep -P '(Guessing DIMM is in|Supported CAS Latencies|Size|Fundamental Memory type|CAS Latency)'
 
-gpu_name=`lspci -v -s $(lspci -v | grep VGA | cut -d ' ' -f 1) | grep -oP "(?<=\tSubsystem: ).+"`
-gpu_memory_total="$(($(cat /sys/class/drm/card1/device/mem_info_vram_total) / 2**20))"
-gpu_power_cap="$(($(find /sys/class/drm/card1/device/ -name power1_cap -exec cat {} \;)  /
-1000000))"
-gpu_vbios_version=`cat /sys/class/drm/card1/device/vbios_version`
-printf "\n\n**GPU hardware:\n"
+# gpu_name=`lspci -v -s $(lspci -v | grep VGA | cut -d ' ' -f 1) | grep -oP "(?<=\tSubsystem: ).+"`
+# gpu_memory_total="$(($(cat /sys/class/drm/card1/device/mem_info_vram_total) / 2**20))"
+# gpu_power_cap="$(($(find /sys/class/drm/card1/device/ -name power1_cap -exec cat {} \;)  /
+# 1000000))"
+# gpu_vbios_version=`cat /sys/class/drm/card1/device/vbios_version`
+printf "\n\n**GPU hardware:"
 printf "  $gpu_name\n"
-printf "  vBios Version: $gpu_vbios_version\n"
-printf "  Memory Total: $gpu_memory_total\n"
-printf "  Power Max: $gpu_power_cap Watts\n"
+# printf "  vBios Version: $gpu_vbios_version\n"
+# printf "  Memory Total: $gpu_memory_total\n"
+# printf "  Power Max: $gpu_power_cap Watts\n"
+lspci -v | grep -A 4 'VGA compatible controller:'
 
 printf "\n\n**Storage:\n"
 if [[ $EUID > 0 ]]; then
