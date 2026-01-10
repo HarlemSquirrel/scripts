@@ -5,8 +5,10 @@ set -e
 docker compose down
 
 # Backup
-zip -r "frigate_$(date +'%Y%m%d.%H%M').zip" frigate
-rsync -a backups/* nas:/mnt/BigPool/backups/frigate/
+if [ -d frigate ]; then
+  zip -r "frigate_$(date +'%Y%m%d.%H%M').zip" frigate
+  rsync -a backups/* nas:/mnt/BigPool/backups/frigate/
+fi
 
 # Cleanup
 docker system prune -f
