@@ -20,7 +20,7 @@ sudo apt-get dist-upgrade -y
 # Update containers
 docker compose pull
 
-# Do containers will come up after reboot automatically
+# So containers will come up after reboot automatically
 docker compose up -d --remove-orphans --force-recreate
 
 # Reboot
