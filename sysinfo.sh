@@ -31,7 +31,7 @@ if [[ $EUID > 0 ]]; then
   printf "(Run as root to see more memory info)\n"
 else
   printf "*From dmidecode:\n"
-  dmidecode -t memory | grep -P '(Memory Device|\tBank Locator: \w+|\tSpeed: \d+|\tSize: \d+|Configured Voltage: [0-9]|Part Number:|\tManufacturer:)'
+  dmidecode -t memory | grep -P '(Memory Device|\tBank Locator: \w+|Speed|\tSize: \d+|Configured Voltage: [0-9]|Part Number:|\tManufacturer:)'
 fi
 printf "\n*From decode-dimms:\n"
 decode-dimms 2>>/dev/null | grep -P '(Guessing DIMM is in|Supported CAS Latencies|Size|Fundamental Memory type|CAS Latency)'
