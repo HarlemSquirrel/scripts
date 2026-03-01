@@ -19,7 +19,7 @@ import asyncio
 import sys
 from typing import Dict
 
-from bleak import BleakClient, BleakGATTCharacteristic, BleakScanner
+from bleak import BLEDevice, BleakClient, BleakScanner, BleakGATTCharacteristic
 
 # ----------------------------------------------------------------------
 # Mapping from CLI keyword → raw byte payload (as a bytes literal)
@@ -34,70 +34,93 @@ COMMANDS: Dict[str, bytes] = {
 
 # The GATT handle that the Gymax app writes to (found in your log)
 WRITE_HANDLE = 0x0005
+NOTIFY_HANDLE = 0x0007
+
+class Treadmill():
+    """A SuperFit treadmill"""
+
+    def __init__(self, mac: str):
+        self.mac = mac
+        self.device: BLEDevice | None = None
+
+    async def set_device(self):
+        """Find and set the device"""
+        if self.device is not None:
+            return self.device
+
+        self.device = await BleakScanner.find_device_by_address(self.mac)
+        if self.device is None:
+            raise(RuntimeError(f"Error: could not find device with address '{self.mac}'"))
+        return self.device
+
+    async def listen(self, client):
+        """Listen to notifications"""
+        await client.start_notify(NOTIFY_HANDLE, self.notification_handler)
+
+    def notification_handler(self, characteristic: BleakGATTCharacteristic, data: bytearray):
+        """Simple notification handler which prints the data received."""
+        print("[NOTIFICATION] %s: %r", characteristic.description, data)
 
 
-# ----------------------------------------------------------------------
-# Async helper that performs the BLE write
-# ----------------------------------------------------------------------
-async def send_command(mac: str, payload: bytes, debug: bool = False) -> None:
-    """
-    Connect to *mac*, write *payload* to WRITE_HANDLE, then disconnect.
-    """
-    device = await BleakScanner.find_device_by_address(
-        mac
-    )
-    if device is None:
-        print("Error: could not find device with address '%s'", mac)
-        return
-
-    if debug:
-        print(f"[DEBUG] Connecting to {mac} …")
-    async with BleakClient(device) as client:
-        if debug:
-            for service in client.services:
-                print("[Service] %s", service)
-
-                for char in service.characteristics:
-                    if "read" in char.properties:
-                        try:
-                            value = await client.read_gatt_char(char)
-                            extra = f", Value: {value}"
-                        except Exception as e:
-                            extra = f", Error: {e}"
-                    else:
-                        extra = ""
-
-                    if "write-without-response" in char.properties:
-                        extra += f", Max write w/o rsp size: {char.max_write_without_response_size}"
-
-                    print(
-                        "  [Characteristic] %s (%s)%s",
-                        char,
-                        ",".join(char.properties),
-                        extra,
-                    )
-
-                    for descriptor in char.descriptors:
-                        try:
-                            value = await client.read_gatt_descriptor(descriptor)
-                            print("    [Descriptor] %s, Value: %r", descriptor, value)
-                        except Exception as e:
-                            print("    [Descriptor] %s, Error: %s", descriptor, e)
-
-
-
+    # ----------------------------------------------------------------------
+    # Async helper that performs the BLE write
+    # ----------------------------------------------------------------------
+    async def send_command(self, payload: bytes, debug: bool = False) -> None:
+        """
+        Connect to *mac*, write *payload* to WRITE_HANDLE, then disconnect.
+        """
+        await self.set_device()
 
         if debug:
-            for service in client.services:
-                print("f[DEBUG] Service:", service)
-            print(f"[DEBUG] Connected. Writing {len(payload)} byte(s) to handle "
-                  f"0x{WRITE_HANDLE:04x}: {payload.hex()}")
+            print(f"[DEBUG] Connecting to {self.mac} …")
+        async with BleakClient(self.device) as client:
+            if debug:
+                for service in client.services:
+                    print("[Service] %s", service)
 
-        await client.write_gatt_char(WRITE_HANDLE, payload, response=True)
+                    for char in service.characteristics:
+                        if "read" in char.properties:
+                            try:
+                                value = await client.read_gatt_char(char)
+                                extra = f", Value: {value}"
+                            except Exception as e:
+                                extra = f", Error: {e}"
+                        else:
+                            extra = ""
 
-        if debug:
-            print("[DEBUG] Write completed, disconnecting…" )
-    # Context manager closes the connection automatically.
+                        if "write-without-response" in char.properties:
+                            extra += f", Max write w/o rsp size: {char.max_write_without_response_size}"
+
+                        print(
+                            "  [Characteristic] %s (%s)%s",
+                            char,
+                            ",".join(char.properties),
+                            extra,
+                        )
+
+                        for descriptor in char.descriptors:
+                            try:
+                                value = await client.read_gatt_descriptor(descriptor)
+                                print("    [Descriptor] %s, Value: %r", descriptor, value)
+                            except Exception as e:
+                                print("    [Descriptor] %s, Error: %s", descriptor, e)
+
+
+            await self.listen(client)
+
+            if debug:
+                for service in client.services:
+                    print("[DEBUG] Service:", service)
+                print(f"[DEBUG] Connected. Writing {len(payload)} byte(s) to handle "
+                    f"0x{WRITE_HANDLE:04x}: {payload.hex()}")
+
+            await client.write_gatt_char(WRITE_HANDLE, payload, response=True)
+
+            await asyncio.sleep(5.0)
+            await client.stop_notify(NOTIFY_HANDLE)
+            if debug:
+                print("[DEBUG] Write completed, disconnecting…" )
+        # Context manager closes the connection automatically.
 
 
 # ----------------------------------------------------------------------
@@ -130,11 +153,14 @@ def main() -> int:
 
     payload = COMMANDS[args.action]
 
-    try:
-        asyncio.run(send_command(args.mac, payload, debug=args.debug))
-    except Exception as exc:                     # pragma: no cover – runtime guard
-        print(f"❌  Failed: {exc}", file=sys.stderr)
-        return 1
+    treadmill = Treadmill(args.mac)
+
+    # try:
+    # asyncio.run(treadmill.set_device())
+    asyncio.run(treadmill.send_command(payload, debug=args.debug))
+    # except Exception as exc:                     # pragma: no cover – runtime guard
+    #     print(f"❌  Failed: {exc}", file=sys.stderr)
+    #     return 1
 
     print(f"✅  Command '{args.action}' sent successfully.")
     return 0
