@@ -13,9 +13,10 @@ The script reproduces the raw ATT Write Requests you extracted with gatttool:
 Usage example (run as normal user, no sudo needed):
     python3 treadmill.py --mac FD:77:39:FD:4D:F3 start
 """
-
 import argparse
 import asyncio
+import datetime
+import signal
 import sys
 from typing import Dict
 
@@ -35,6 +36,13 @@ COMMANDS: Dict[str, bytes] = {
 # The GATT handle that the Gymax app writes to (found in your log)
 WRITE_HANDLE = 0x0005
 NOTIFY_HANDLE = 0x0007
+CONFIG_HANDLE = 0X0009
+CCCD_UUID = "00002902-0000-1000-8000-00805f9b34fb"   # descriptor 0x0009
+
+# ----------------------------------------------------------------------
+# Poll command – “give me the latest telemetry”
+# ----------------------------------------------------------------------
+POLL_PAYLOAD = bytes.fromhex("a9 a0 03 00 00 00 0a")   # same shape as “up/down”, speed byte = 0x
 
 class Treadmill():
     """A SuperFit treadmill"""
@@ -43,7 +51,7 @@ class Treadmill():
         self.mac = mac
         self.device: BLEDevice | None = None
 
-    async def set_device(self):
+    async def set_device(self) -> BLEDevice:
         """Find and set the device"""
         if self.device is not None:
             return self.device
@@ -59,7 +67,10 @@ class Treadmill():
 
     def notification_handler(self, characteristic: BleakGATTCharacteristic, data: bytearray):
         """Simple notification handler which prints the data received."""
-        print("[NOTIFICATION] %s: %r", characteristic.description, data)
+        now = datetime.datetime.now()
+        speed = int.from_bytes(data[1:2]) / 10.0
+        speed_mph = round(speed * 0.621371, 1)
+        print(f"[NOTIFICATION] {now} {characteristic.description}: {data}   speed: {speed}kmh {speed_mph}mph")
 
 
     # ----------------------------------------------------------------------
@@ -69,11 +80,11 @@ class Treadmill():
         """
         Connect to *mac*, write *payload* to WRITE_HANDLE, then disconnect.
         """
-        await self.set_device()
+        device: BLEDevice = await self.set_device()
 
         if debug:
             print(f"[DEBUG] Connecting to {self.mac} …")
-        async with BleakClient(self.device) as client:
+        async with BleakClient(device) as client:
             if debug:
                 for service in client.services:
                     print("[Service] %s", service)
@@ -108,15 +119,25 @@ class Treadmill():
 
             await self.listen(client)
 
-            if debug:
-                for service in client.services:
-                    print("[DEBUG] Service:", service)
-                print(f"[DEBUG] Connected. Writing {len(payload)} byte(s) to handle "
-                    f"0x{WRITE_HANDLE:04x}: {payload.hex()}")
+            # if debug:
+            #     for service in client.services:
+            #         print("[DEBUG] Service:", service)
+            #     print(f"[DEBUG] Connected. Writing {len(payload)} byte(s) to handle "
+            #         f"0x{WRITE_HANDLE:04x}: {payload.hex()}")
 
-            await client.write_gatt_char(WRITE_HANDLE, payload, response=True)
+            # await client.write_gatt_char(WRITE_HANDLE, payload, response=True)
 
-            await asyncio.sleep(5.0)
+            # await asyncio.sleep(600)
+            while True:
+                # Poll for updates
+
+                await client.write_gatt_char(WRITE_HANDLE, POLL_PAYLOAD, response=True)
+                if debug:
+                    print("[DEBUG] Polled for updates.")
+                # response = await client.read_gatt_char(NOTIFY_HANDLE)
+                # now = datetime.datetime.now()
+                # print(f"[READ] {now} | {response}")
+                await asyncio.sleep(2)
             await client.stop_notify(NOTIFY_HANDLE)
             if debug:
                 print("[DEBUG] Write completed, disconnecting…" )
@@ -148,7 +169,13 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def signal_handler(sig, frame):
+    print("Exiting")
+    sys.exit()
+
 def main() -> int:
+    signal.signal(signal.SIGINT, signal_handler)
+
     args = parse_args()
 
     payload = COMMANDS[args.action]
