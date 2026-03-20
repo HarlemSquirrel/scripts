@@ -27,3 +27,6 @@ screen -S s1 /dev/ttyUSB0 115200
 
 # F12
 # screen -S s1 -X stuff "$(printf '\e[24~')"
+
+# Escape
+# screen -S s1 -X stuff $'\e'
