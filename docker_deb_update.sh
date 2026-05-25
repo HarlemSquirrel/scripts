@@ -2,7 +2,11 @@
 
 set -e
 
-docker compose down
+if [ -f ~/portainer-compose.yaml ]; then
+  docker compose -f ~/portainer-compose.yaml down
+else
+  docker compose down
+fi
 
 # Backup
 if [ -d frigate ]; then
