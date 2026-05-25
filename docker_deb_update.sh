@@ -19,8 +19,8 @@ sudo apt-get dist-upgrade -y
 
 if [ -f ~/portainer-compose.yaml ]; then
   echo "Updating Portainer container..."
-  docker compose -f portainer-compose.yaml pull
-  docker compose -f portainer-compose.yaml up -d --remove-orphans --force-recreate
+  docker compose -f ~/portainer-compose.yaml pull
+  docker compose -f ~/portainer-compose.yaml up -d --remove-orphans --force-recreate
 else
   echo "Updating containers..."
   # Update containers
