@@ -5,9 +5,20 @@ SCRIPT=`realpath $0`
 SCRIPTPATH=`dirname $SCRIPT`
 source $SCRIPTPATH/helper_functions.sh
 
+OS="$(uname -s)"
+
+show_disk_usage() {
+  if [ "$OS" = "Darwin" ]; then
+    # BSD df has no --total flag
+    df -h
+  else
+    df -h --total
+  fi
+}
+
 # Show disk usage before
 colorprintf blue "\n  --Before--\n"
-df -h --total
+show_disk_usage
 
 printf "\nWe are now going to clean some shit up...\n"
 
@@ -18,6 +29,11 @@ printf "\nWe are now going to clean some shit up...\n"
 if command -v brew >/dev/null 2>&1; then
   colorprintf orange "\nRunning brew cleanup...\n"
   brew cleanup
+fi
+
+if command -v mise >/dev/null 2>&1; then
+  colorprintf orange "\nRunning mise prune...\n"
+  mise prune -y
 fi
 
 if command -v nvm >/dev/null 2>&1; then
@@ -69,18 +85,25 @@ if command -v docker &>/dev/null; then
   docker system prune
 fi
 
-colorprintf orange "\nRemoving broken symlinks...\n"
-find ~/. -type l -! -exec test -e {} \; -print | wc -l
-find ~/. -type l -! -exec test -e {} \; -delete
+# colorprintf orange "\nRemoving broken symlinks...\n"
+# find ~/. -type l ! -exec test -e {} \; -print | wc -l
+# find ~/. -type l ! -exec test -e {} \; -delete
 
-colorprintf orange "\nRemoving all but the last 30 days of journal logs...\n"
-sudo journalctl --vacuum-time=30d
+if command -v journalctl >/dev/null 2>&1; then
+  colorprintf orange "\nRemoving all but the last 30 days of journal logs...\n"
+  sudo journalctl --vacuum-time=30d
+fi
 
 colorprintf orange "\nTaking out the trash...\n"
-trash-empty
+if [ "$OS" = "Darwin" ]; then
+  # Empty the macOS Trash (all volumes) via Finder; skips silently if already empty
+  osascript -e 'tell application "Finder" to if (count of items of trash) > 0 then empty trash'
+elif command -v trash-empty >/dev/null 2>&1; then
+  trash-empty
+fi
 
 # Show disk usage after
 colorprintf blue "\n  --After--\n"
-df -h --total
+show_disk_usage
 
 colorprintf green "\nAll done here!\n"
