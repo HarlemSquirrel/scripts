@@ -7,7 +7,7 @@ if command -v apt-get 2>/dev/null; then
   sudo apt-get install curl dnsutils git imagemagick libmagickwand-dev libpq-dev peek python3-pip vim zsh
 
   # Postgres
-  sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
+  #sudo apt-get install postgresql-15 postgresql-client-15 postgis postgresql-15-postgis-3
 
   if ( ! command -v add-apt-repository >>/dev/null ); then
     sudo apt install software-properties-common
@@ -29,6 +29,13 @@ if command -v apt-get 2>/dev/null; then
     | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
   sudo apt update
   sudo apt install gh
+
+  # Fuse
+  sudo add-apt-repository universe
+  sudo apt install libfuse2
+
+  # Media
+  sudo apt install ffmpeg
 elif command -v pacman >>/dev/null; then
   printf "\n==> Installing dependencies with pacman...\n"
 
